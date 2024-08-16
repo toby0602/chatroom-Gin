@@ -16,8 +16,8 @@ const userPhotos = [
     "/assets/img/pic9.jpg",
     "/assets/img/pic10.jpg",
 ]
-var PERSON_IMG = userPhotos[getRandomNum(0, userPhotos.length)];
-var PERSON_NAME = "Guest" + Math.floor(Math.random() * 1000);
+var PERSON_IMG = userPhotos[getRandomNum(0, userPhotos.length)]; 
+var PERSON_NAME = "Guest" + Math.floor(Math.random() * 1000); 
 
 var ws;
 var chatroom = document.getElementsByClassName("msger-chat");

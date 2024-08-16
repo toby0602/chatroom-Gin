@@ -35,10 +35,23 @@ var clients = make(map[*websocket.Conn]bool)
 var clientsLock sync.Mutex
 
 // WebSocket 升級配置
+// var upgrader = websocket.Upgrader{
+// 	CheckOrigin: func(r *http.Request) bool {
+// 		return true // 允許跨域請求
+// 	},
+// }
+
+// // 防止CSRF 攻擊
 var upgrader = websocket.Upgrader{
-	CheckOrigin: func(r *http.Request) bool {
-		return true // 允許跨域請求
-	},
+    CheckOrigin: func(r *http.Request) bool {
+        allowedOrigins := map[string]bool{        // 用來儲存允許的原點域名。只要請求的 Origin 標頭與此列表中的域名匹配，就會允許升級為 WebSocket 連接。
+            "http://localhost:5000": true,
+            "https://sub.yourdomain.com": true,
+        }
+
+        origin := r.Header.Get("Origin")          // 從請求的標頭中獲取 Origin 值。Origin 標頭通常會包含發送請求的頁面所在的域名。
+        return allowedOrigins[origin]
+    },
 }
 
 // WebSocket 處理函數
